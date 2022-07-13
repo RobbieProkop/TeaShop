@@ -1,10 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import productListSlice from "./reducers/productReducers";
+import productList from "./reducers/productReducers";
 
 const preloadedState = {};
 
 const store = configureStore({
-  reducer: { productListSlice },
+  reducer: { productList },
   preloadedState,
   devTools: process.env.NODE_ENV !== "production",
 });

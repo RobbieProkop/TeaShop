@@ -1,10 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const productListSlice = createSlice({
+const productList = createSlice({
   name: "productList",
   initialState: [],
   reducers: {
-    productListRequest(state) {
+    productListRequest(state, action) {
       state.push({
         loading: false,
         products: [],
@@ -26,5 +26,5 @@ const productListSlice = createSlice({
 });
 
 export const { productListRequest, productListSuccess, productListFail } =
-  productListSlice.actions;
-export default productListSlice.reducer;
+  productList.actions;
+export default productList.reducer;
