@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import productReducer from "./features/products/productSlice";
+import productReducer from "./features/products/productsSlice";
 
 const preloadedState = {};
 
