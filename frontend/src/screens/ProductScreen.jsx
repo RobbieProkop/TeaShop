@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Row,
@@ -18,6 +18,7 @@ import Message from "../components/Message";
 const ProductScreen = () => {
   const params = useParams();
   const [qty, setQty] = useState(0);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { isLoading, isError, message, product } = useSelector(
     (state) => state.product
@@ -26,6 +27,10 @@ const ProductScreen = () => {
   useEffect(() => {
     dispatch(getProductDetails(params.id));
   }, [dispatch]);
+
+  const addToCartHandler = () => {
+    navigate(`/cart/${params.id}?qty=${qty}`);
+  };
 
   return (
     <>
@@ -103,7 +108,11 @@ const ProductScreen = () => {
 
                 <ListGroup.Item>
                   <div className="d-grid">
-                    <Button type="button" disabled={product.countInStock === 0}>
+                    <Button
+                      type="button"
+                      disabled={product.countInStock === 0}
+                      onClick={addToCartHandler}
+                    >
                       Add To Cart
                     </Button>
                   </div>
