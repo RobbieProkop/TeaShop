@@ -9,14 +9,14 @@ const initialState = {
 };
 
 export const addCartItems = createAsyncThunk(
-  "cart.addCartItems",
+  "cart/addCartItems",
   async (productId, thunkAPI) => {
     try {
       const existItem = state.cartItems.find((x) => x.product === item.product);
 
       if (!existItem) {
         return {
-          ...initialState,
+          ...state,
           cartItems: [...state.cartItems, item],
         };
       }
