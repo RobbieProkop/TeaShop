@@ -16,7 +16,7 @@ export const addCartItems = createAsyncThunk(
 
       if (!existItem) {
         return {
-          ...state,
+          ...initialState,
           cartItems: [...state.cartItems, item],
         };
       }
