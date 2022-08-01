@@ -1,13 +1,15 @@
 import { configureStore, createReducer } from "@reduxjs/toolkit";
 import productReducer from "./features/products/productsSlice";
 import cartReducer from "./features/cart/cartSlice";
+import authSlice from "./features/Auth/authSlice";
 
 const preloadedState = {};
 
 const store = configureStore({
   reducer: {
+    auth: authSlice,
     product: productReducer,
-    cart: cartReducer,
+    // cart: cartReducer,
   },
   preloadedState,
   devTools: process.env.NODE_ENV !== "production",

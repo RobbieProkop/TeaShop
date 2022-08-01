@@ -42,9 +42,7 @@
 //   name: "cart",
 //   initialState,
 //   reducers: {
-//     cartReducer: (state = {cartItems: []}, action => {
-
-//     })
+//     cartReducer: ((state = { cartItems: [] }), (action) => {}),
 //   },
 //   extraReducers: (builder) => {
 //     builder
@@ -67,17 +65,17 @@
 
 // export default cartSlice.reducer;
 
-import { createSlice } from "@reduxjs/toolkit";
+// import { createSlice } from "@reduxjs/toolkit";
 
-const cartSlice = createSlice({
-  name: "cart",
-  initialState: {
-    itemsList: [],
-    qty: 0,
-    showCart: false,
-  },
-  reducers: {
-    addToCart() {},
-    removeFrom,
-  },
-});
+// const cartSlice = createSlice({
+//   name: "cart",
+//   initialState: {
+//     itemsList: [],
+//     qty: 0,
+//     showCart: false,
+//   },
+//   reducers: {
+//     addToCart() {},
+//     removeFrom,
+//   },
+// });
