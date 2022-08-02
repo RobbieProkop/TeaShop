@@ -65,17 +65,42 @@
 
 // export default cartSlice.reducer;
 
-// import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
-// const cartSlice = createSlice({
-//   name: "cart",
-//   initialState: {
-//     itemsList: [],
-//     qty: 0,
-//     showCart: false,
-//   },
-//   reducers: {
-//     addToCart() {},
-//     removeFrom,
-//   },
-// });
+const cartSlice = createSlice({
+  name: "cart",
+  initialState: {
+    itemsList: [],
+    qty: 0,
+    showCart: false,
+  },
+  reducers: {
+    addToCart(state, action) {
+      const newItem = action.payload;
+      // check if item is already present ? increase qty : addToCart
+      const existingItem = state.itemsList.find(
+        (item) => item.id === newItem.id
+      );
+      if (existingItem) {
+        existingItem.qty++;
+        existingItem.totalPrice += newItem.price;
+      } else {
+        state.itemsList.push({
+          id: newItem.id,
+          price: newItem.price,
+          qty: 1,
+          totalPrice: newItem.price,
+          name: newItem.name,
+        });
+      }
+    },
+    removeFromCart() {},
+    setShowCart(state) {
+      state.showCart = true;
+    },
+  },
+});
+
+export const cartActions = cartSlice.actions;
+
+export default cartSlice.reducer;

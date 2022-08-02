@@ -14,8 +14,11 @@ import Rating from "../components/Rating";
 import { getProductDetails } from "../features/products/productsSlice";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
+import { cartActions } from "../features/cart/cartSlice";
 
 const ProductScreen = () => {
+  const cartItems = useSelector((state) => state.cart.itemsList);
+  console.log(cartItems);
   const params = useParams();
   const [qty, setQty] = useState(0);
   const navigate = useNavigate();
@@ -29,6 +32,13 @@ const ProductScreen = () => {
   }, [dispatch]);
 
   const addToCartHandler = () => {
+    dispatch(
+      cartActions.addToCart({
+        name: product.name,
+        id: product._id,
+        price: product.price,
+      })
+    );
     navigate(`/cart/${params.id}?qty=${qty}`);
   };
 
