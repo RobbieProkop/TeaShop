@@ -72,7 +72,7 @@ const cartSlice = createSlice({
   initialState: {
     itemsList: [],
     totalQty: 0,
-    showCart: false,
+    showCart: true,
   },
   reducers: {
     addToCart(state, action) {
