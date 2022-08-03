@@ -26,9 +26,11 @@ const CartScreen = () => {
       ) : (
         <Row>
           {itemsList.map((item) => (
-            <Col key={item._id} sm={12} md={6} lg={4} xl={3}>
+            <Col key={item.id} sm={12} md={6} lg={4} xl={3}>
+              {console.log(item.id)}
               <Product
-                // id={item._id}
+                key={item.id}
+                // id={item.id}
                 // price={item.price}
                 // name={item.name}
                 product={item}
