@@ -27,6 +27,10 @@ const ProductScreen = () => {
     (state) => state.product
   );
 
+  const setShowCart = () => {
+    dispatch(cartActions.setShowCart());
+  };
+
   useEffect(() => {
     dispatch(getProductDetails(params.id));
   }, [dispatch, params.id]);
@@ -40,6 +44,7 @@ const ProductScreen = () => {
         image: product.image,
       })
     );
+    setShowCart();
     navigate(`/cart/${params.id}?qty=${qty}`);
   };
 

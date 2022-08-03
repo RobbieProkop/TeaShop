@@ -6,7 +6,6 @@ import { cartActions } from "../features/cart/cartSlice";
 const Header = () => {
   const qty = useSelector((state) => state.cart.totalQty);
   const showCart = useSelector((state) => state.cart.showCart);
-  console.log(showCart);
   const dispatch = useDispatch();
   const setShowCart = () => {
     dispatch(cartActions.setShowCart());
