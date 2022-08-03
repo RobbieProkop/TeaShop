@@ -12,14 +12,13 @@ const Product = ({ product }) => {
     dispatch(
       cartActions.addToCart({
         name: product.name,
-        id: product._id,
+        id: product.id,
         price: product.price,
         image: product.image,
         totalPrice: product.totalPrice,
       })
     );
   };
-  console.log(product.totalPrice);
   const decrementItem = () => {};
 
   return (
@@ -42,6 +41,7 @@ const Product = ({ product }) => {
             />
           </Card.Text>
         )}
+        {!showCart && <Card.Text as="h3">${product.price}</Card.Text>}
         {showCart && <Card.Text as="p">Quantity: {product.qty}</Card.Text>}
         {showCart && (
           <Card.Text as="h3">
