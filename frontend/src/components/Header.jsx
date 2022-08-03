@@ -3,12 +3,21 @@ import { LinkContainer } from "react-router-bootstrap";
 import { Container, Navbar, Nav } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { cartActions } from "../features/cart/cartSlice";
+import { authActions } from "../features/Auth/authSlice";
 const Header = () => {
   const qty = useSelector((state) => state.cart.totalQty);
   const showCart = useSelector((state) => state.cart.showCart);
   const dispatch = useDispatch();
   const setShowCart = () => {
     dispatch(cartActions.setShowCart());
+  };
+
+  const loginHandler = () => {
+    dispatch(authActions.login());
+  };
+
+  const logoutHandler = () => {
+    dispatch(authActions.logout());
   };
   return (
     <header>
