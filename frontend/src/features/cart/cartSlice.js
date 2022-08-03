@@ -96,7 +96,17 @@ const cartSlice = createSlice({
         state.totalQty++;
       }
     },
-    removeFromCart() {},
+    // removeFromCart(state, action) {
+    //   const id = action.payload;
+
+    //   const existingItem = state.itemsList.find((item) => item.id === id);
+    //   if (existingItem === 1) {
+    //     state.itemsList = state.itemsList.filter((item) => item.id !== id);
+    //   } else {
+    //     existingItem.qty--;
+    //     existingItem.totalPrice -= existingItem.price;
+    //   }
+    // },
     setShowCart(state) {
       state.showCart = !state.showCart;
     },

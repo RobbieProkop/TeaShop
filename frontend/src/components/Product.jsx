@@ -1,11 +1,25 @@
-import React from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Card } from "react-bootstrap";
+import { Card, Button } from "react-bootstrap";
 import Rating from "./Rating";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { cartActions } from "../features/cart/cartSlice";
 
 const Product = ({ product }) => {
+  const dispatch = useDispatch();
   const showCart = useSelector((state) => state.cart.showCart);
+  const incrementItem = () => {
+    dispatch(
+      cartActions.addToCart({
+        name: product.name,
+        id: product._id,
+        price: product.price,
+        image: product.image,
+      })
+    );
+  };
+  const decrementItem = () => {};
+
   return (
     <Card className="my-3 p-3 rounded">
       <Link to={`/product/${product._id}`}>
@@ -26,7 +40,13 @@ const Product = ({ product }) => {
             />
           </Card.Text>
         )}
-        <Card.Text as="h3">${product.price}</Card.Text>
+        {!showCart && <Card.Text as="h3">${product.price}</Card.Text>}
+        {showCart && <Card.Text as="p">Quantity: {product.qty}</Card.Text>}
+        {showCart && (
+          <div className="d-flex justify-content-between">
+            <Button onClick={incrementItem}>+</Button> <Button>-</Button>
+          </div>
+        )}
       </Card.Body>
     </Card>
   );
