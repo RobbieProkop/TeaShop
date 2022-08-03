@@ -1,16 +1,27 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { Row, Col } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import Product from "../components/Product";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import { getProducts } from "../features/products/productsSlice";
+import { cartActions } from "../features/cart/cartSlice";
 
 const CartScreen = () => {
   const dispatch = useDispatch();
-  const { itemsList } = useSelector((state) => state.cart);
 
   const { isLoading, message, isError } = useSelector((state) => state.product);
+
+  const setShowCart = () => {
+    dispatch(cartActions.setShowCart());
+  };
+  const { itemsList } = useSelector((state) => state.cart);
+
+  let totalCost = 0;
+  itemsList.forEach((item) => {
+    totalCost += item.totalPrice;
+  });
 
   useEffect(() => {
     dispatch(getProducts());
@@ -19,6 +30,9 @@ const CartScreen = () => {
   return (
     <div className="container">
       <h2>Your Cart</h2>
+      <Link onClick={setShowCart} className="btn btn-light my-3" to="/">
+        Go Back
+      </Link>
       {isLoading ? (
         <Loader />
       ) : isError ? (
@@ -32,6 +46,9 @@ const CartScreen = () => {
           ))}
         </Row>
       )}
+      <h3 className="d-flex justify-content-end">
+        Total: ${Math.round(totalCost * 100) / 100}
+      </h3>
     </div>
   );
 };

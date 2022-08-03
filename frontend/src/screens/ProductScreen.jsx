@@ -42,6 +42,7 @@ const ProductScreen = () => {
         id: product._id,
         price: product.price,
         image: product.image,
+        qty: product.qty,
       })
     );
     setShowCart();

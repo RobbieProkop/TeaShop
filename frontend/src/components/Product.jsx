@@ -19,7 +19,9 @@ const Product = ({ product }) => {
       })
     );
   };
-  const decrementItem = () => {};
+  const decrementItem = () => {
+    dispatch(cartActions.removeFromCart(product.id));
+  };
 
   return (
     <Card className="my-3 p-3 rounded">
@@ -50,7 +52,8 @@ const Product = ({ product }) => {
         )}
         {showCart && (
           <div className="d-flex justify-content-between">
-            <Button onClick={incrementItem}>+</Button> <Button>-</Button>
+            <Button onClick={incrementItem}>+</Button>{" "}
+            <Button onClick={decrementItem}>-</Button>
           </div>
         )}
       </Card.Body>
