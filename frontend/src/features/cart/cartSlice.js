@@ -42,9 +42,7 @@
 //   name: "cart",
 //   initialState,
 //   reducers: {
-//     cartReducer: (state = {cartItems: []}, action => {
-
-//     })
+//     cartReducer: ((state = { cartItems: [] }), (action) => {}),
 //   },
 //   extraReducers: (builder) => {
 //     builder
@@ -73,11 +71,48 @@ const cartSlice = createSlice({
   name: "cart",
   initialState: {
     itemsList: [],
-    qty: 0,
+    totalQty: 0,
     showCart: false,
   },
   reducers: {
-    addToCart() {},
-    removeFrom,
+    addToCart(state, action) {
+      const newItem = action.payload;
+      const existingItem = state.itemsList.find(
+        (item) => item.id === newItem.id
+      );
+      if (existingItem) {
+        existingItem.qty++;
+        existingItem.totalPrice += newItem.price;
+      } else {
+        state.itemsList.push({
+          id: newItem.id,
+          price: newItem.price,
+          qty: 1,
+          totalPrice: newItem.price,
+          name: newItem.name,
+          image: newItem.image,
+        });
+      }
+      state.totalQty++;
+    },
+    removeFromCart(state, action) {
+      const id = action.payload;
+
+      const existingItem = state.itemsList.find((item) => item.id === id);
+      if (existingItem.qty === 1) {
+        state.itemsList = state.itemsList.filter((item) => item.id !== id);
+      } else {
+        existingItem.qty--;
+        existingItem.totalPrice -= existingItem.price;
+      }
+      state.totalQty--;
+    },
+    setShowCart(state) {
+      state.showCart = !state.showCart;
+    },
   },
 });
+
+export const cartActions = cartSlice.actions;
+
+export default cartSlice.reducer;
