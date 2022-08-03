@@ -15,9 +15,11 @@ const Product = ({ product }) => {
         id: product._id,
         price: product.price,
         image: product.image,
+        totalPrice: product.totalPrice,
       })
     );
   };
+  console.log(product.totalPrice);
   const decrementItem = () => {};
 
   return (
@@ -40,8 +42,12 @@ const Product = ({ product }) => {
             />
           </Card.Text>
         )}
-        {!showCart && <Card.Text as="h3">${product.price}</Card.Text>}
         {showCart && <Card.Text as="p">Quantity: {product.qty}</Card.Text>}
+        {showCart && (
+          <Card.Text as="h3">
+            ${Math.round(product.totalPrice * 100) / 100}
+          </Card.Text>
+        )}
         {showCart && (
           <div className="d-flex justify-content-between">
             <Button onClick={incrementItem}>+</Button> <Button>-</Button>
