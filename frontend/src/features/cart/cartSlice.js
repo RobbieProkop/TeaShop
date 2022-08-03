@@ -73,27 +73,41 @@ const cartSlice = createSlice({
     itemsList: [],
     totalQty: 0,
     showCart: false,
+    isError: false,
+    isSuccess: false,
+    isLoading: false,
+    message: "",
   },
   reducers: {
-    addToCart(state, action) {
-      const newItem = action.payload;
-      const existingItem = state.itemsList.find(
-        (item) => item.id === newItem.id
-      );
-      if (existingItem) {
-        existingItem.qty++;
-        existingItem.totalPrice += newItem.price;
-      } else {
-        state.itemsList.push({
-          id: newItem.id,
-          price: newItem.price,
-          qty: 1,
-          totalPrice: newItem.price,
-          name: newItem.name,
-          image: newItem.image,
-        });
+    addToCart(state, action, thunkAPI) {
+      try {
+        const newItem = action.payload;
+        const existingItem = state.itemsList.find(
+          (item) => item.id === newItem.id
+        );
+        if (existingItem) {
+          existingItem.qty++;
+          existingItem.totalPrice += newItem.price;
+        } else {
+          state.itemsList.push({
+            id: newItem.id,
+            price: newItem.price,
+            qty: 1,
+            totalPrice: newItem.price,
+            name: newItem.name,
+            image: newItem.image,
+          });
+        }
+        state.totalQty++;
+      } catch (error) {
+        const message =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+        return thunkAPI.rejectWithValue(message);
       }
-      state.totalQty++;
     },
     removeFromCart(state, action) {
       const id = action.payload;
@@ -110,6 +124,23 @@ const cartSlice = createSlice({
     setShowCart(state) {
       state.showCart = !state.showCart;
     },
+  },
+  extraReducers: (builder) => {
+    // builder
+    //   .addCase(addToCart.pending, (state) => {
+    //     state.isLoading = true;
+    //     state = { ...state };
+    //   })
+    //   .addCase(addToCart.fulfilled, (state, action) => {
+    //     state.isLoading = false;
+    //     state.isSuccess = true;
+    //     state.cartItems = action.payload;
+    //   })
+    //   .addCase(addToCart.rejected, (state, action) => {
+    //     state.isLoading = false;
+    //     state.isError = true;
+    //     state.message = action.payload;
+    //   });
   },
 });
 

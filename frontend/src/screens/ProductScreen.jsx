@@ -46,12 +46,12 @@ const ProductScreen = () => {
       })
     );
     setShowCart();
-    navigate(`/cart/${params.id}?qty=${qty}`);
+    navigate(`/cart`);
   };
 
   return (
     <>
-      <Link className="btn btn-light my-3" to="/">
+      <Link className="btn btn-light my-3 d-flex justify-content-end" to="/">
         Go Back
       </Link>
       {isLoading ? (
