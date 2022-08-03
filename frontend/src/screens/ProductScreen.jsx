@@ -37,6 +37,7 @@ const ProductScreen = () => {
         name: product.name,
         id: product._id,
         price: product.price,
+        image: product.image,
       })
     );
     navigate(`/cart/${params.id}?qty=${qty}`);

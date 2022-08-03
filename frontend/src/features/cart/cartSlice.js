@@ -91,13 +91,14 @@ const cartSlice = createSlice({
           qty: 1,
           totalPrice: newItem.price,
           name: newItem.name,
+          image: newItem.image,
         });
         state.totalQty++;
       }
     },
     removeFromCart() {},
     setShowCart(state) {
-      state.showCart = true;
+      state.showCart = !state.showCart;
     },
   },
 });
