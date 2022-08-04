@@ -89,8 +89,11 @@ const cartSlice = createSlice({
         );
 
         if (existingItem) {
-          existingItem.qty++;
-          existingItem.totalPrice += newItem.price;
+          console.log("exist qty:", existingItem.qty);
+          console.log("new qty:", newItem.qty);
+          existingItem.qty += newItem.qty;
+          existingItem.totalPrice += newItem.price * newItem.qty;
+          console.log("existingItem.totalPrice:", existingItem.totalPrice);
         } else {
           state.itemsList.push({
             id: newItem.id,
@@ -100,6 +103,7 @@ const cartSlice = createSlice({
             name: newItem.name,
             image: newItem.image,
           });
+          console.log("new qty init", newItem.qty);
         }
         state.totalQty++;
       } catch (error) {

@@ -14,6 +14,7 @@ const Product = ({ product }) => {
         id: product.id,
         price: product.price,
         totalPrice: product.totalPrice,
+        qty: 1,
       })
     );
   };
