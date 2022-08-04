@@ -89,23 +89,19 @@ const cartSlice = createSlice({
         );
 
         if (existingItem) {
-          console.log("exist qty:", existingItem.qty);
-          console.log("new qty:", newItem.qty);
           existingItem.qty += newItem.qty;
           existingItem.totalPrice += newItem.price * newItem.qty;
-          console.log("existingItem.totalPrice:", existingItem.totalPrice);
         } else {
           state.itemsList.push({
             id: newItem.id,
             price: newItem.price,
             qty: newItem.qty,
-            totalPrice: newItem.price,
+            totalPrice: newItem.price * newItem.qty,
             name: newItem.name,
             image: newItem.image,
           });
-          console.log("new qty init", newItem.qty);
+          state.totalQty++;
         }
-        state.totalQty++;
       } catch (error) {
         const message =
           (error.response &&
@@ -122,11 +118,11 @@ const cartSlice = createSlice({
       const existingItem = state.itemsList.find((item) => item.id === id);
       if (existingItem.qty === 1) {
         state.itemsList = state.itemsList.filter((item) => item.id !== id);
+        state.totalQty--;
       } else {
         existingItem.qty--;
         existingItem.totalPrice -= existingItem.price;
       }
-      state.totalQty--;
     },
     setShowCart(state) {
       state.showCart = !state.showCart;
