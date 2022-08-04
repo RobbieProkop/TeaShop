@@ -7,7 +7,6 @@ const preloadedState = {};
 
 const store = configureStore({
   reducer: {
-    //may need to change this to authSlice
     auth: authReducer,
     product: productReducer,
     cart: cartReducer,

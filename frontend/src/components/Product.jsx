@@ -11,10 +11,8 @@ const Product = ({ product }) => {
   const incrementItem = () => {
     dispatch(
       cartActions.addToCart({
-        name: product.name,
         id: product.id,
         price: product.price,
-        image: product.image,
         totalPrice: product.totalPrice,
       })
     );

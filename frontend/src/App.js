@@ -14,8 +14,8 @@ const App = () => {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const cart = useSelector((state) => state.cart);
 
-  // const cartItems = useSelector((state) => state.cart.itemsList);
-  // console.log(cartItems);
+  const cartItems = useSelector((state) => state.cart.itemsList);
+  console.log(cartItems);
 
   // useEffect(() => {
   //   fetch("https://localhost:5000/api/cart.json", {
@@ -23,13 +23,13 @@ const App = () => {
   //     body: JSON.stringify(cart),
   //   });
   // });
-  useEffect(() => {
-    const axiosData = async (productId) => {
-      const { data } = await axios.post("/api/cart");
-      console.log(data);
-    };
-    axiosData().catch(console.error);
-  }, [cart]);
+  // useEffect(() => {
+  //   const axiosData = async (productId) => {
+  //     const { data } = await axios.post("/api/cart");
+  //     console.log(data);
+  //   };
+  //   axiosData().catch(console.error);
+  // }, [cart]);
 
   return (
     <Router>
