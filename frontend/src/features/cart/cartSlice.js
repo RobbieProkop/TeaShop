@@ -66,8 +66,6 @@
 // export default cartSlice.reducer;
 
 import { createSlice } from "@reduxjs/toolkit";
-import { useSelector } from "react-redux";
-import ProductScreen from "../../screens/ProductScreen";
 
 const initialState = {
   itemsList: [],
