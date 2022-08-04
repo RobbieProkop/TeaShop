@@ -66,18 +66,22 @@
 // export default cartSlice.reducer;
 
 import { createSlice } from "@reduxjs/toolkit";
+import { useSelector } from "react-redux";
+import ProductScreen from "../../screens/ProductScreen";
+
+const initialState = {
+  itemsList: [],
+  totalQty: 0,
+  showCart: false,
+  isError: false,
+  isSuccess: false,
+  isLoading: false,
+  message: "",
+};
 
 const cartSlice = createSlice({
   name: "cart",
-  initialState: {
-    itemsList: [],
-    totalQty: 0,
-    showCart: false,
-    isError: false,
-    isSuccess: false,
-    isLoading: false,
-    message: "",
-  },
+  initialState,
   reducers: {
     addToCart(state, action, thunkAPI) {
       try {
@@ -85,6 +89,7 @@ const cartSlice = createSlice({
         const existingItem = state.itemsList.find(
           (item) => item.id === newItem.id
         );
+
         if (existingItem) {
           existingItem.qty++;
           existingItem.totalPrice += newItem.price;
@@ -92,7 +97,7 @@ const cartSlice = createSlice({
           state.itemsList.push({
             id: newItem.id,
             price: newItem.price,
-            qty: 1,
+            qty: newItem.qty,
             totalPrice: newItem.price,
             name: newItem.name,
             image: newItem.image,
@@ -143,7 +148,6 @@ const cartSlice = createSlice({
     //   });
   },
 });
-
 export const cartActions = cartSlice.actions;
 
 export default cartSlice.reducer;
