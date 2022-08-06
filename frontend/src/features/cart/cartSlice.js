@@ -73,7 +73,6 @@ const cartItemsFromStorage = localStorage.getItem("itemsList")
 const shippingAddressFromStorage = localStorage.getItem("shippingAddress")
   ? JSON.parse(localStorage.getItem("shippingAddress"))
   : {};
-
 const initialState = {
   itemsList: cartItemsFromStorage,
   shippingAddress: shippingAddressFromStorage,
@@ -89,7 +88,7 @@ const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    addToCart(state, action, thunkAPI) {
+    addItem(state, action, thunkAPI) {
       try {
         const newItem = action.payload;
         const existingItem = state.itemsList.find(
@@ -154,6 +153,7 @@ const cartSlice = createSlice({
     //   });
   },
 });
+
 export const cartActions = cartSlice.actions;
 
 export default cartSlice.reducer;

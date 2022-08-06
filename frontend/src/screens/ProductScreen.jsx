@@ -36,7 +36,7 @@ const ProductScreen = () => {
 
   const addToCartHandler = () => {
     dispatch(
-      cartActions.addToCart({
+      cartActions.addItem({
         name: product.name,
         id: product._id,
         price: product.price,

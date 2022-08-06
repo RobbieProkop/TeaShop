@@ -10,7 +10,7 @@ const Product = ({ product }) => {
   const showCart = useSelector((state) => state.cart.showCart);
   const incrementItem = () => {
     dispatch(
-      cartActions.addToCart({
+      cartActions.addItem({
         id: product.id,
         price: product.price,
         totalPrice: product.totalPrice,
