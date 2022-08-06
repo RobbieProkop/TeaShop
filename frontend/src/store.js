@@ -3,7 +3,7 @@ import productReducer from "./features/products/productsSlice";
 import cartReducer from "./features/cart/cartSlice";
 import authReducer from "./features/Auth/authSlice";
 
-const preloadedState = {};
+const initialState = {};
 
 const store = configureStore({
   reducer: {
@@ -11,7 +11,7 @@ const store = configureStore({
     product: productReducer,
     cart: cartReducer,
   },
-  preloadedState,
+  initialState,
   devTools: process.env.NODE_ENV !== "production",
 });
 

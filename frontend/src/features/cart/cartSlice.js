@@ -65,10 +65,18 @@
 
 // export default cartSlice.reducer;
 
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+
+const cartItemsFromStorage = localStorage.getItem("itemsList")
+  ? JSON.parse(localStorage.getItem("itemsList"))
+  : [];
+const shippingAddressFromStorage = localStorage.getItem("shippingAddress")
+  ? JSON.parse(localStorage.getItem("shippingAddress"))
+  : {};
 
 const initialState = {
-  itemsList: [],
+  itemsList: cartItemsFromStorage,
+  shippingAddress: shippingAddressFromStorage,
   totalQty: 0,
   showCart: false,
   isError: false,

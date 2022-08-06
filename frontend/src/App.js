@@ -14,7 +14,7 @@ const App = () => {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const cart = useSelector((state) => state.cart);
 
-  const cartItems = useSelector((state) => state.cart.itemsList);
+  const cartItems = useSelector((state) => cart.itemsList);
   console.log(cartItems);
 
   // useEffect(() => {
