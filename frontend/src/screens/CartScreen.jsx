@@ -13,6 +13,8 @@ const CartScreen = () => {
 
   const { isLoading, message, isError } = useSelector((state) => state.product);
 
+  const showCart = useSelector((state) => state.cart.showCart);
+
   const setShowCart = () => {
     dispatch(cartActions.setShowCart());
   };
@@ -29,10 +31,16 @@ const CartScreen = () => {
 
   return (
     <div className="container">
-      <h2>Your Cart</h2>
-      <Link onClick={setShowCart} className="btn btn-light my-3" to="/">
-        Go Back
-      </Link>
+      <div className="d-flex justify-content-between my-3">
+        <h2>Your Cart</h2>
+        <Link
+          onClick={showCart ? setShowCart : null}
+          className="btn btn-light "
+          to="/"
+        >
+          Go Back
+        </Link>
+      </div>
       {isLoading ? (
         <Loader />
       ) : isError ? (

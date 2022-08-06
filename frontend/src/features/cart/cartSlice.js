@@ -67,33 +67,50 @@
 
 import { createSlice } from "@reduxjs/toolkit";
 
+const initialState = {
+  itemsList: [],
+  totalQty: 0,
+  showCart: false,
+  isError: false,
+  isSuccess: false,
+  isLoading: false,
+  message: "",
+};
+
 const cartSlice = createSlice({
   name: "cart",
-  initialState: {
-    itemsList: [],
-    totalQty: 0,
-    showCart: false,
-  },
+  initialState,
   reducers: {
-    addToCart(state, action) {
-      const newItem = action.payload;
-      const existingItem = state.itemsList.find(
-        (item) => item.id === newItem.id
-      );
-      if (existingItem) {
-        existingItem.qty++;
-        existingItem.totalPrice += newItem.price;
-      } else {
-        state.itemsList.push({
-          id: newItem.id,
-          price: newItem.price,
-          qty: 1,
-          totalPrice: newItem.price,
-          name: newItem.name,
-          image: newItem.image,
-        });
+    addToCart(state, action, thunkAPI) {
+      try {
+        const newItem = action.payload;
+        const existingItem = state.itemsList.find(
+          (item) => item.id === newItem.id
+        );
+
+        if (existingItem) {
+          existingItem.qty += newItem.qty;
+          existingItem.totalPrice += newItem.price * newItem.qty;
+        } else {
+          state.itemsList.push({
+            id: newItem.id,
+            price: newItem.price,
+            qty: newItem.qty,
+            totalPrice: newItem.price * newItem.qty,
+            name: newItem.name,
+            image: newItem.image,
+          });
+          state.totalQty++;
+        }
+      } catch (error) {
+        const message =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+        return thunkAPI.rejectWithValue(message);
       }
-      state.totalQty++;
     },
     removeFromCart(state, action) {
       const id = action.payload;
@@ -101,18 +118,34 @@ const cartSlice = createSlice({
       const existingItem = state.itemsList.find((item) => item.id === id);
       if (existingItem.qty === 1) {
         state.itemsList = state.itemsList.filter((item) => item.id !== id);
+        state.totalQty--;
       } else {
         existingItem.qty--;
         existingItem.totalPrice -= existingItem.price;
       }
-      state.totalQty--;
     },
     setShowCart(state) {
       state.showCart = !state.showCart;
     },
   },
+  extraReducers: (builder) => {
+    // builder
+    //   .addCase(addToCart.pending, (state) => {
+    //     state.isLoading = true;
+    //     state = { ...state };
+    //   })
+    //   .addCase(addToCart.fulfilled, (state, action) => {
+    //     state.isLoading = false;
+    //     state.isSuccess = true;
+    //     state.cartItems = action.payload;
+    //   })
+    //   .addCase(addToCart.rejected, (state, action) => {
+    //     state.isLoading = false;
+    //     state.isError = true;
+    //     state.message = action.payload;
+    //   });
+  },
 });
-
 export const cartActions = cartSlice.actions;
 
 export default cartSlice.reducer;

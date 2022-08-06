@@ -18,9 +18,8 @@ import { cartActions } from "../features/cart/cartSlice";
 
 const ProductScreen = () => {
   const cartItems = useSelector((state) => state.cart.itemsList);
-  console.log(cartItems);
   const params = useParams();
-  const [qty, setQty] = useState(0);
+  const [qty, setQty] = useState(1);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { isLoading, isError, message, product } = useSelector(
@@ -42,16 +41,16 @@ const ProductScreen = () => {
         id: product._id,
         price: product.price,
         image: product.image,
-        qty: product.qty,
+        qty: qty,
       })
     );
     setShowCart();
-    navigate(`/cart/${params.id}?qty=${qty}`);
+    navigate(`/cart`);
   };
 
   return (
     <>
-      <Link className="btn btn-light my-3" to="/">
+      <Link className="btn btn-light my-3 d-flex justify-content-end" to="/">
         Go Back
       </Link>
       {isLoading ? (
@@ -110,7 +109,7 @@ const ProductScreen = () => {
                         <Form.Control
                           as="select"
                           value={qty}
-                          onChange={(e) => setQty(e.target.value)}
+                          onChange={(e) => setQty(Number(e.target.value))}
                         >
                           {[...Array(product.countInStock).keys()].map((x) => (
                             <option key={x + 1} value={x + 1}>
