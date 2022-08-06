@@ -10,23 +10,16 @@ import {
   Card,
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import Product from "../components/Product";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import { getProducts } from "../features/products/productsSlice";
-import { cartActions } from "../features/cart/cartSlice";
-import { addToCart } from "../features/cart/cartSlice";
+import { addToCart } from "../actions/cartActions";
 
 const CartScreen = () => {
   const dispatch = useDispatch();
 
   const { isLoading, message, isError } = useSelector((state) => state.product);
 
-  const showCart = useSelector((state) => state.cart.showCart);
-
-  const setShowCart = () => {
-    dispatch(cartActions.setShowCart());
-  };
   const { itemsList } = useSelector((state) => state.cart);
 
   let totalCost = 0;
@@ -42,15 +35,11 @@ const CartScreen = () => {
     <div className="container">
       <div className="d-flex justify-content-between my-3">
         <h2>Your Cart</h2>
-        <Link
-          onClick={showCart ? setShowCart : null}
-          className="btn btn-light "
-          to="/"
-        >
+        <Link className="btn btn-light " to="/">
           Go Back
         </Link>
       </div>
-      {isLoading ? (
+      {/* {isLoading ? (
         <Loader />
       ) : isError ? (
         <Message variant="danger">{message}</Message>
@@ -62,7 +51,7 @@ const CartScreen = () => {
             </Col>
           ))}
         </Row>
-      )}
+      )} */}
       <h3 className="d-flex justify-content-end">
         Total: ${Math.round(totalCost * 100) / 100}
       </h3>
