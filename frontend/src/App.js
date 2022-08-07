@@ -23,13 +23,13 @@ const App = () => {
   //     body: JSON.stringify(cart),
   //   });
   // });
-  // useEffect(() => {
-  //   const axiosData = async (productId) => {
-  //     const { data } = await axios.get("/api/cart");
-  //     console.log(data);
-  //   };
-  //   axiosData().catch(console.error);
-  // }, [cart]);
+  useEffect(() => {
+    const axiosData = async (productId) => {
+      const { data } = await axios.get("/api/cart");
+      console.log(data);
+    };
+    axiosData().catch(console.error);
+  }, [cart]);
 
   return (
     <Router>
