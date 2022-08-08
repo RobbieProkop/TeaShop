@@ -53,7 +53,8 @@ const CartScreen = ({ item }) => {
     dispatch(getProducts());
   }, []);
 
-  const removeFromCartHandler = (id) => cartActions.removeAll();
+  const removeFromCartHandler = (item) =>
+    dispatch(cartActions.removeAll(item.id));
 
   return (
     <Row>
@@ -96,9 +97,9 @@ const CartScreen = ({ item }) => {
                   </Col>
                   <Col md={2}>
                     <Button
-                      type="butotn"
+                      type="button"
                       variant="light"
-                      onClick={() => removeFromCartHandler()}
+                      onClick={() => removeFromCartHandler(item)}
                     >
                       <i className="fas fa-trash"></i>
                     </Button>
@@ -109,8 +110,18 @@ const CartScreen = ({ item }) => {
           </ListGroup>
         )}
       </Col>
-      <Col md={2}></Col>
-      <Col md={2}></Col>
+      <Col md={4}>
+        <Card>
+          <ListGroup variant="flush">
+            <ListGroupItem>
+              <h2>
+                Subtotal ({itemsList.reduce((acc, item) => acc + item.qty, 0)})
+                items
+              </h2>
+            </ListGroupItem>
+          </ListGroup>
+        </Card>
+      </Col>
     </Row>
     // <div className="container">
     //   <div className="d-flex justify-content-between my-3">

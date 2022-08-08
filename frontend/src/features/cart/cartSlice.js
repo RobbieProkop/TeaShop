@@ -164,6 +164,7 @@ const cartSlice = createSlice({
     removeAll(state, action) {
       const id = action.payload;
       state.itemsList = state.itemsList.filter((item) => item.id !== id);
+      state.totalQty--;
     },
     setShowCart(state) {
       state.showCart = !state.showCart;
