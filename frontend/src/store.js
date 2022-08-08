@@ -2,6 +2,10 @@ import { configureStore, createReducer } from "@reduxjs/toolkit";
 import productReducer from "./features/products/productsSlice";
 import cartReducer from "./features/cart/cartSlice";
 import authReducer from "./features/Auth/authSlice";
+import {
+  getItemsListFromStorage,
+  saveItemsList,
+} from "./features/localStorage/localStorage";
 
 const initialState = {};
 

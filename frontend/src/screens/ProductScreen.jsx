@@ -15,6 +15,7 @@ import { getProductDetails } from "../features/products/productsSlice";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 import { cartActions } from "../features/cart/cartSlice";
+import { saveItemsList } from "../features/localStorage/localStorage";
 
 const ProductScreen = () => {
   const cartItems = useSelector((state) => state.cart.itemsList);
@@ -41,9 +42,11 @@ const ProductScreen = () => {
         id: product._id,
         price: product.price,
         image: product.image,
-        qty: qty,
+        qty,
       })
     );
+
+    saveItemsList(cartItems);
     setShowCart();
     navigate(`/cart`);
   };

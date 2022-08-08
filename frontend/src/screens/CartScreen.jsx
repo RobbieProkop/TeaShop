@@ -10,32 +10,26 @@ import {
   Card,
   ListGroupItem,
 } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import Product from "../components/Product";
+import { Link, useNavigate } from "react-router-dom";
 import Message from "../components/Message";
-import Loader from "../components/Loader";
 import { getProducts } from "../features/products/productsSlice";
 import { cartActions } from "../features/cart/cartSlice";
-import { addToCart } from "../features/cart/cartSlice";
+import {
+  getItemsListFromStorage,
+  saveItemsList,
+} from "../features/localStorage/localStorage";
 
 const CartScreen = ({ item }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { isLoading, message, isError } = useSelector((state) => state.product);
-
   const itemsList = useSelector((state) => state.cart.itemsList);
-
   const showCart = useSelector((state) => state.cart.showCart);
 
   const setShowCart = () => {
     dispatch(cartActions.setShowCart());
   };
-  // const { itemsList } = useSelector((state) => state.cart);
-
-  let totalCost = 0;
-  itemsList.forEach((item) => {
-    totalCost += item.totalPrice;
-  });
 
   const incrementItem = (item) => {
     dispatch(
@@ -44,17 +38,26 @@ const CartScreen = ({ item }) => {
         qty: 1,
       })
     );
+    saveItemsList(item);
   };
   const decrementItem = (item) => {
     dispatch(cartActions.removeFromCart(item.id));
+    saveItemsList(item.id);
   };
 
   useEffect(() => {
     dispatch(getProducts());
+    // saveItemsList(item);
+    getItemsListFromStorage();
   }, []);
 
-  const removeFromCartHandler = (item) =>
+  const removeFromCartHandler = (item) => {
     dispatch(cartActions.removeAll(item.id));
+  };
+
+  const checkoutHandler = () => {
+    navigate("/login?redirect=shipping");
+  };
 
   return (
     <Row>
@@ -118,6 +121,20 @@ const CartScreen = ({ item }) => {
                 Subtotal ({itemsList.reduce((acc, item) => acc + item.qty, 0)})
                 items
               </h2>
+              $
+              {itemsList
+                .reduce((acc, item) => acc + item.qty * item.price, 0)
+                .toFixed(2)}
+            </ListGroupItem>
+            <ListGroupItem>
+              <Button
+                type="button"
+                className="btn-block"
+                disabled={itemsList.length === 0}
+                onClick={checkoutHandler}
+              >
+                Submit Order
+              </Button>
             </ListGroupItem>
           </ListGroup>
         </Card>

@@ -67,43 +67,47 @@
 
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import {
+  getItemsListFromStorage,
+  saveItemsList,
+} from "../localStorage/localStorage";
 
-const cartItemsFromStorage = localStorage.getItem("itemsList")
-  ? JSON.parse(localStorage.getItem("itemsList"))
-  : [];
+// const cartItemsFromStorage = localStorage.getItem("itemsList")
+//   ? JSON.parse(localStorage.getItem("itemsList"))
+//   : [];
 const shippingAddressFromStorage = localStorage.getItem("shippingAddress")
   ? JSON.parse(localStorage.getItem("shippingAddress"))
   : {};
 
-export const addToCart = (id, qty, thunkAPI) => async (dispatch, getState) => {
-  try {
-    const { data } = await axios.get(`/api/products/${id}`);
-    const itemsList = {
-      id: data._id,
-      name: data.name,
-      price: data.price,
-      image: data.image,
-      countInStock: data.countInStock,
-      qty,
-    };
+// export const addToCart = (id, qty, thunkAPI) => async (dispatch, getState) => {
+//   try {
+//     const { data } = await axios.get(`/api/products/${id}`);
+//     const itemsList = {
+//       id: data._id,
+//       name: data.name,
+//       price: data.price,
+//       image: data.image,
+//       countInStock: data.countInStock,
+//       qty,
+//     };
+//     saveItemsList(itemsList);
+//     dispatch(addToCart(itemsList));
 
-    dispatch(addToCart(itemsList));
-
-    localStorage.setItem(
-      "itemsList",
-      JSON.stringify(getState().cart.itemsList)
-    );
-  } catch (error) {
-    const message =
-      (error.response && error.response.data && error.response.data.message) ||
-      error.message ||
-      error.toString();
-    return thunkAPI.rejectWithValue(message);
-  }
-};
+//     // localStorage.setItem(
+//     //   "itemsList",
+//     //   JSON.stringify(getState().cart.itemsList)
+//     // );
+//   } catch (error) {
+//     const message =
+//       (error.response && error.response.data && error.response.data.message) ||
+//       error.message ||
+//       error.toString();
+//     return thunkAPI.rejectWithValue(message);
+//   }
+// };
 
 const initialState = {
-  itemsList: cartItemsFromStorage,
+  itemsList: getItemsListFromStorage(),
   shippingAddress: shippingAddressFromStorage,
   totalQty: 0,
   showCart: false,
@@ -123,10 +127,11 @@ const cartSlice = createSlice({
         const existingItem = state.itemsList.find(
           (item) => item.id === newItem.id
         );
-
         if (existingItem) {
           existingItem.qty += newItem.qty;
           // existingItem.totalPrice += newItem.price * newItem.qty;
+          saveItemsList(existingItem);
+          state.totalQty++;
         } else {
           state.itemsList.push({
             id: newItem.id,
@@ -136,8 +141,10 @@ const cartSlice = createSlice({
             name: newItem.name,
             image: newItem.image,
           });
-          state.totalQty++;
+          saveItemsList(newItem);
+          state.totalQty += newItem.qty;
         }
+        saveItemsList();
       } catch (error) {
         const message =
           (error.response &&
@@ -158,7 +165,9 @@ const cartSlice = createSlice({
       } else {
         existingItem.qty--;
         existingItem.totalPrice -= existingItem.price;
+        state.totalQty--;
       }
+      saveItemsList(id);
     },
 
     removeAll(state, action) {
