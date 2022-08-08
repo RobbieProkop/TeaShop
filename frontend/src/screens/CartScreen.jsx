@@ -18,17 +18,19 @@ import { getProducts } from "../features/products/productsSlice";
 import { cartActions } from "../features/cart/cartSlice";
 import { addToCart } from "../features/cart/cartSlice";
 
-const CartScreen = () => {
+const CartScreen = ({ item }) => {
   const dispatch = useDispatch();
 
   const { isLoading, message, isError } = useSelector((state) => state.product);
+
+  const itemsList = useSelector((state) => state.cart.itemsList);
 
   const showCart = useSelector((state) => state.cart.showCart);
 
   const setShowCart = () => {
     dispatch(cartActions.setShowCart());
   };
-  const { itemsList } = useSelector((state) => state.cart);
+  // const { itemsList } = useSelector((state) => state.cart);
 
   let totalCost = 0;
   itemsList.forEach((item) => {
@@ -39,8 +41,6 @@ const CartScreen = () => {
     dispatch(
       cartActions.addItem({
         id: item.id,
-        // price: item.price,
-        // totalPrice: item.totalPrice,
         qty: 1,
       })
     );
@@ -51,7 +51,9 @@ const CartScreen = () => {
 
   useEffect(() => {
     dispatch(getProducts());
-  }, [dispatch]);
+  }, []);
+
+  const removeFromCartHandler = (id) => cartActions.removeAll();
 
   return (
     <Row>
@@ -85,7 +87,22 @@ const CartScreen = () => {
                     <Link to={`/product.${item.id}`}>{item.name}</Link>
                   </Col>
                   <Col md={2}>${item.price}</Col>
-                  {/* <Col md={2}>x{item.qty}</Col> */}
+                  <Col md={1}>x{item.qty}</Col>
+                  <Col md={1}>
+                    <Button onClick={() => incrementItem(item)}>+</Button>
+                  </Col>
+                  <Col md={1}>
+                    <Button onClick={() => decrementItem(item)}>-</Button>
+                  </Col>
+                  <Col md={2}>
+                    <Button
+                      type="butotn"
+                      variant="light"
+                      onClick={() => removeFromCartHandler()}
+                    >
+                      <i className="fas fa-trash"></i>
+                    </Button>
+                  </Col>
                 </Row>
               </ListGroupItem>
             ))}
